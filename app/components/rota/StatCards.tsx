@@ -107,7 +107,7 @@ export function StatCards({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
+      <div className="flex flex-col items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center">
         <Ring value={m.coveragePct / 100} color={m.coveragePct >= 95 ? "#10b981" : m.coveragePct >= 85 ? "#f59e0b" : "#ef4444"}>
           {m.coveragePct}%
         </Ring>
@@ -124,8 +124,8 @@ export function StatCards({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm">
-        <div className="flex size-16 shrink-0 items-center justify-center rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-300">
+      <div className="flex flex-col items-start gap-3 rounded-2xl border border-border bg-card p-4 shadow-sm sm:flex-row sm:items-center">
+        <div className="flex size-12 shrink-0 items-center justify-center rounded-full sm:size-16 bg-sky-500/10 text-sky-600 dark:text-sky-300">
           <IconClock className="size-6" />
         </div>
         <div className="min-w-0">
@@ -137,8 +137,8 @@ export function StatCards({
         </div>
       </div>
 
-      <div className={`flex items-center gap-3 rounded-2xl border p-4 shadow-sm ${errors ? "border-red-500/40 bg-red-500/5" : "border-border bg-card"}`}>
-        <div className={`flex size-16 shrink-0 items-center justify-center rounded-full ${errors ? "bg-red-500/15 text-red-600" : "bg-emerald-500/10 text-emerald-600"}`}>
+      <div className={`flex flex-col items-start gap-3 rounded-2xl border p-4 shadow-sm sm:flex-row sm:items-center ${errors ? "border-red-500/40 bg-red-500/5" : "border-border bg-card"}`}>
+        <div className={`flex size-12 shrink-0 items-center justify-center rounded-full sm:size-16 ${errors ? "bg-red-500/15 text-red-600" : "bg-emerald-500/10 text-emerald-600"}`}>
           {errors ? <IconAlertTriangle className="size-6" /> : <IconCircleCheck className="size-6" />}
         </div>
         <div className="min-w-0">
