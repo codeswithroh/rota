@@ -31,3 +31,24 @@ Use `adding-a-feature` for functional parity and `frontend-design` for a user-fa
 Before building common workspace or agent UI, read `agent-native-toolkit`; for supported customization, read `customizing-agent-native`.
 
 - Guarded verification: run `pnpm agent-native:doctor`; fix findings before done.
+
+## Rota
+
+Weekly staff schedule for a small cafe. `/` is the public landing page; `/dashboard?week=YYYY-MM-DD` is the week grid, `/dashboard/inbox` staff texts, `/dashboard/team` staff, `/dashboard/rules` coverage and budget. Chat stays at `/chat`.
+
+- `shared/rota-rules.ts` is the only judge of validity. Hard rules (errors): double-booking, shift on time off, under 11h rest, over contract hours. Warnings: open shifts, coverage gaps, over budget, shifts over 10h or under 3h.
+- Agent changes go through `propose-changes` (ghost shifts) and wait for the manager. It rejects plans that add an error with `rule_violation`; report which rule and try another person. One pending proposal per week.
+- Direct edits (`update-shift`, `create-shift`) also reject errors unless `force` is true; only force after the manager confirms.
+- Dates are local `YYYY-MM-DD`; times are local `HH:MM` in action inputs and minutes after midnight in results; money is cents in results.
+- `navigation` adds `week` and `shiftId`; `selection` is `{ kind: "rota.shift", shiftId, label }` when a shift is clicked.
+
+| Action | Purpose |
+|-|-|
+| get-week | Staff, shifts, messages, rule check |
+| suggest-cover | Rank who can take a shift |
+| propose-changes | Ghost changes for review (dryRun to test) |
+| decide-proposal | Accept or reject a proposal |
+| add-time-off | Record a day someone can't work |
+| update-shift / create-shift / delete-shift | Manager edits |
+| receive-message / send-message / mark-message-handled | Staff texts |
+| publish-week / copy-week / set-budget / upsert-staff / seed-demo | Week admin |

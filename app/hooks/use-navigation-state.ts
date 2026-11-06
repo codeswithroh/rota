@@ -18,13 +18,16 @@ export interface NavigationState {
   path?: string;
   publicPath?: string;
   threadId?: string;
+  week?: string;
+  shiftId?: string;
 }
 
 export function useNavigationState() {
   useAgentRouteState<NavigationState>({
     browserTabId: TAB_ID,
     requestSource: TAB_ID,
-    getNavigationState: ({ pathname }) => navigationStateForPath(pathname),
+    getNavigationState: ({ pathname, searchParams }) =>
+      navigationStateForPath(pathname, searchParams),
     getCommandPath: commandPathForNavigation,
   });
 }
@@ -62,17 +65,28 @@ function matchesPathPrefix(pathname: string, prefix: string): boolean {
   return pathname === prefix || pathname.startsWith(`${prefix}/`);
 }
 
-export function navigationStateForPath(pathname: string): NavigationState {
+export function navigationStateForPath(
+  pathname: string,
+  searchParams?: URLSearchParams,
+): NavigationState {
   const threadId = threadIdFromPath(pathname);
+  const week = searchParams?.get("week");
+  const shiftId = searchParams?.get("shift");
   return {
     view: viewForPath(pathname),
     path: pathname,
     publicPath: appPathFromLocalRoute(pathname),
     ...(threadId ? { threadId } : {}),
+    ...(week ? { week } : {}),
+    ...(shiftId ? { shiftId } : {}),
   };
 }
 
 function viewForPath(pathname: string): string {
+  if (pathname === "/dashboard/team") return "team";
+  if (pathname === "/dashboard/inbox") return "inbox";
+  if (pathname === "/dashboard/rules") return "rules";
+  if (pathname.startsWith("/dashboard")) return "rota";
   if (isChatPathname(pathname)) return "chat";
   if (pathname === HOME_PATH) return "home";
   if (pathname.startsWith("/database")) return "database";
@@ -88,6 +102,14 @@ function viewForPath(pathname: string): string {
 
 function pathForView(view?: string): string {
   switch (view) {
+    case "rota":
+      return "/dashboard";
+    case "team":
+      return "/dashboard/team";
+    case "inbox":
+      return "/dashboard/inbox";
+    case "rules":
+      return "/dashboard/rules";
     case "chat":
     case "ask":
       return NEW_CHAT_PATH;
@@ -106,7 +128,7 @@ function pathForView(view?: string): string {
     case "team":
       return "/settings/organization";
     default:
-      return HOME_PATH;
+      return "/dashboard";
   }
 }
 

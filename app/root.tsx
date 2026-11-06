@@ -180,6 +180,9 @@ export default function Root() {
   // The path, not the visitor, picks the shell, so the SSR shell stays one
   // cached page per URL.
   const { pathname } = useLocation();
+  // The public landing page renders without the signed-in app providers, so
+  // visiting it never triggers a session check or sign-in redirect.
+  if (pathname === "/") return <Outlet />;
   return (
     <AppToolkitProvider>
       <AppProviders
