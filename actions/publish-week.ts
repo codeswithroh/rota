@@ -26,7 +26,7 @@ export default defineAction({
     week: z.string().describe("Any date in the week, YYYY-MM-DD"),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const week = resolveWeek(args.week);
     const { input, weekRow, proposals } = await loadWeek(t, week);
     if (proposals.length) {

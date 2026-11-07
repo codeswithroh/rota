@@ -13,7 +13,7 @@ export default defineAction({
   http: { method: "GET" },
   readOnly: true,
   run: async ({ shiftId }, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const [row] = await getDb()
       .select({ date: schema.shifts.date })
       .from(schema.shifts)

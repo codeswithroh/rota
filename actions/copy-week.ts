@@ -18,7 +18,7 @@ export default defineAction({
     to: z.string().describe("Any date in the target week, YYYY-MM-DD"),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const from = resolveWeek(args.from);
     const to = resolveWeek(args.to);
     if (from === to) fail("Pick two different weeks.", { errorCode: "same_week" });

@@ -83,7 +83,7 @@ export default defineAction({
     week: z.string().optional().describe("Any date in the week; default this week"),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const week = resolveWeek(args.week);
     const db = getDb();
 

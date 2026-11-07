@@ -29,7 +29,7 @@ export default defineAction({
     active: z.boolean().optional(),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const db = getDb();
     if (args.id) {
       const patch: Partial<typeof schema.staff.$inferInsert> = {};

@@ -9,7 +9,7 @@ export default defineAction({
   description: "Delete one confirmed shift (manager edit).",
   schema: z.object({ id: z.string().describe("Shift id") }),
   run: async ({ id }, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const [deleted] = await getDb()
       .delete(schema.shifts)
       .where(

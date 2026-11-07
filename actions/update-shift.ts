@@ -34,7 +34,7 @@ export default defineAction({
       .describe("Save despite hard-rule errors; only after user confirms"),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const [row] = await getDb()
       .select()
       .from(schema.shifts)

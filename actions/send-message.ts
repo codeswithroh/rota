@@ -17,7 +17,7 @@ export default defineAction({
       .describe("Inbound message id to mark handled"),
   }),
   run: async ({ staffId, body, replyToId }, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const db = getDb();
     const [person] = await db
       .select({ id: schema.staff.id, name: schema.staff.name })

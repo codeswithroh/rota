@@ -12,7 +12,7 @@ export default defineAction({
     handled: z.boolean().default(true),
   }),
   run: async ({ id, handled }, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const [row] = await getDb()
       .update(schema.messages)
       .set({ status: handled ? "handled" : "new" })

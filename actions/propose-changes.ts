@@ -87,7 +87,7 @@ export default defineAction({
     label: "Review on the rota",
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const week = resolveWeek(args.week);
     const { input, proposals } = await loadWeek(t, week);
     if (proposals.length && !args.dryRun) {

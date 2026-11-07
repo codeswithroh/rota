@@ -31,7 +31,7 @@ export default defineAction({
     label: "Open the rota",
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const week = resolveWeek(args.week);
     const { input, weekRow, proposals } = await loadWeek(t, week);
     const [messages, autoHandle] = await Promise.all([

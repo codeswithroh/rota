@@ -30,7 +30,7 @@ export default defineAction({
       .describe("Save despite hard-rule errors; only after user confirms"),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const date = validDate(args.date);
     const startMin = toMinutes(args.start, "start");
     const endMin = toMinutes(args.end, "end");

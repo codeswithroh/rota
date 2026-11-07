@@ -15,7 +15,7 @@ export default defineAction({
     messageId: z.string().optional().describe("Message that reported it"),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const date = validDate(args.date);
     const db = getDb();
     const [person] = await db

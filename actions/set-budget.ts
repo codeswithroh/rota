@@ -12,7 +12,7 @@ export default defineAction({
     budgetDollars: z.coerce.number().min(0).max(1_000_000),
   }),
   run: async (args, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const week = resolveWeek(args.week);
     const budgetCents = Math.round(args.budgetDollars * 100);
     const db = getDb();

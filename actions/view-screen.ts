@@ -32,7 +32,7 @@ export default defineAction({
 
     const view = navigation?.view;
     if (view === "rota" || view === "team" || view === "inbox") {
-      const t = tenantOf(ctx);
+      const t = await tenantOf(ctx);
       const week = resolveWeek(navigation?.week);
       const { input } = await loadWeek(t, week);
       const current = evaluateRota({

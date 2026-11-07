@@ -25,7 +25,7 @@ export default defineAction({
     decision: z.enum(["accept", "reject"]),
   }),
   run: async ({ id, decision }, ctx) => {
-    const t = tenantOf(ctx);
+    const t = await tenantOf(ctx);
     const db = getDb();
     const [proposal] = await db
       .select()

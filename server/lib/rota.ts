@@ -21,12 +21,19 @@ export interface Tenant {
   orgId: string | null;
 }
 
-export function tenantOf(
-  ctx: { userEmail?: string | null; orgId?: string | null } | undefined,
-): Tenant {
+export async function tenantOf(
+  ctx: { userEmail?: string | null; orgId?: string | null; automation?: unknown } | undefined,
+): Promise<Tenant> {
   const ownerEmail =
     ctx?.userEmail ?? fail("Sign in to use Rota.", { statusCode: 401 });
-  return { ownerEmail, orgId: ctx?.orgId ?? null };
+  if (ctx?.orgId) return { ownerEmail, orgId: ctx.orgId };
+  // Background automation runs (agent-native 0.225) arrive without orgId even
+  // when the job sets one, so take it from the auto-handle job file.
+  if (ctx?.automation) {
+    const { autoHandleOrgId } = await import("./auto-handle.js");
+    return { ownerEmail, orgId: await autoHandleOrgId(ownerEmail) };
+  }
+  return { ownerEmail, orgId: null };
 }
 
 /** Team scope: the active org's rows, or the manager's own rows without an org. */
